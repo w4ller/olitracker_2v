@@ -12,27 +12,7 @@ ON CPU6809 BEGIN ASM
 ; --- offsets ---
 TMP1 EQU 36
 
-; ---------- compute row pointer: X = SONGBASE + TRACKPOS ----------
-    LDX  <SONGBASE
-    LDD  <TRACKPOS
-    LEAX D,X
-
-  ; X = SONGBASE + TRACKPOS (sorgente banked)
-    LDA  _songBank
-    STA  $A7E5          ; GATE
-
-    LDY  #_rowBuf
-    LDB  #10
-copy10_loop:
-    LDA  ,X+
-    STA  ,Y+
-    DECB
-    BNE  copy10_loop
-
     LDX  #_rowBuf
-
-    ;LDA  _baseBank           ; <-- metti qui il bank “normale” del programma
-    ;STA  $A7E5
 
 ; ---------- CH1 note -> INC1 ----------
     LDA  0,X

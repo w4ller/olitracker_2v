@@ -73,4 +73,4 @@ CALL inizialize_dac
 
 'PRINT HEX$(addr)
 'PRINT "Play songxxxx"
-'CALL play_loop
+CALL play_loop

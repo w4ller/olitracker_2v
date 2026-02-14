@@ -67,9 +67,14 @@ samplesPerTick = samplesPerTickFromRow[samplesPerRow]
 'PRINT "Sample per tick: ";samplesPerTick
 index = samplesPerTick
 'PRINT index
+
 PROCEDURE play_loop
+    'PRINT "vai con init"
     CALL asm_player_init
+    'PRINT "init fatto"
     DO
+        'PRINT "aggiorno row"
+        BANK READ songBank FROM (addr + headerLen + trackPos) TO VARPTR(rowBuf) SIZE 10
         CALL asm_player_frame
     LOOP
 END PROCEDURE

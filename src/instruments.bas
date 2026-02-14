@@ -31,4 +31,4 @@ FOR n = 0 TO inst-1
 
     instruments(n) = VARPTR(instRam) + (n * 256) + 128
 NEXT
-PRINT "inst loaded in memory: ";HEX$(VARPTR(instRam))
+'PRINT "inst loaded in memory: ";HEX$(VARPTR(instRam))
