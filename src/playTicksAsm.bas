@@ -71,8 +71,9 @@ index = samplesPerTick
 PROCEDURE play_loop
     CALL asm_player_init
     DO
-        PRINT "aggiorno row"
-        BANK READ songBank FROM (addr + headerLen + trackPos) TO VARPTR(rowBuf) SIZE 10
+        PRINT "aggiorno row";HEX$(VARPTR(rowBuf));" ";HEX$(trackBase);" ";songBank
+
+        BANK READ songBank FROM (trackBase + trackPos) TO VARPTR(rowBuf) SIZE 10
         CALL asm_player_frame
     LOOP
 END PROCEDURE

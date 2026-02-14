@@ -24,6 +24,7 @@ binarySong := LOAD("assets/binarysong.bin") BANKED
 addr = VARBANKPTR(binarySong)
 songBank = VARBANK(binarySong)
 GLOBAL addr
+GLOBAL songBank
 
 PRINT HEX$(addr)
 PRINT songBank
@@ -42,7 +43,7 @@ songSize = PEEKW(VARPTR(header))
 
 
 ' una riga = 10 byte (2 canali * 5)
-DIM rowBuf(10) AS BYTE
+DIM rowBuf(10) AS BYTE FOR BANK READ
 GLOBAL rowBuf
 
 ' base track nel file banked: addr + headerLen
