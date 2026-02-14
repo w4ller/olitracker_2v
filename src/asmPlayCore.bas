@@ -5,6 +5,7 @@
 
 PROCEDURE asm_player_frame
 ON CPU6809 BEGIN ASM
+   PSHS DP
     LDA _audioDPPage
     TFR A,DP
 
@@ -150,7 +151,8 @@ tickDone:
     BLS  storePos
     LDD  #$0000
 storePos:
-    STD  <TRACKPOS
-
+    STD  <TRACKPOS      ; salva in TRACKPOS (direct page)
+    STD  _trackPos      ; salva anche in _trackPos (indirizzamento esteso)
+    PULS DP
 END ASM ON CPU6809
 END PROCEDURE

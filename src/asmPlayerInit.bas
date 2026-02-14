@@ -52,8 +52,7 @@ VOLTABP EQU 34
 
     ; trackpos = 0
     LDD  #$0000
-    STD  <TRACKPOS
-
+    STD  <TRACKPOS      ; salva in TRACKPOS (direct page)
     ; tracklines = (songSize-1) * (channelLen*2)  (come fai ora in BASIC)
     ; per ora leggiamo il valore già calcolato in _trackLines e lo copiamo
     LDD  _trackLines
