@@ -4,7 +4,7 @@
 
 
 DIM volumeTable AS BUFFER
-volumeTable = LOAD("olitracker_2v/volumetables.bin")
+volumeTable = LOAD("assets/volumetables.bin")
 'songSize = SIZE(binarySong)
 
 

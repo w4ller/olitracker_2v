@@ -20,7 +20,7 @@ PRINT "header: " ;HEX$(VARPTR(header))
 
 
 ' binary song banked
-binarySong := LOAD("olitracker_2v/future1.bin") BANKED
+binarySong := LOAD("assets/binarysong.bin") BANKED
 addr = VARBANKPTR(binarySong)
 songBank = VARBANK(binarySong)
 GLOBAL addr
@@ -51,18 +51,18 @@ GLOBAL trackBase
 trackBase = addr + headerLen
 
 
-INCLUDE "olitracker_2v/instruments.bas"
-INCLUDE "olitracker_2v/config.bas"
-INCLUDE "olitracker_2v/incrementTable.bas"
-INCLUDE "olitracker_2v/volumeTable.bas"
-INCLUDE "olitracker_2v/audioDeepPage.bas"
-INCLUDE "olitracker_2v/asmPlayerInit.bas"
+INCLUDE "src/instruments.bas"
+INCLUDE "src/config.bas"
+INCLUDE "src/incrementTable.bas"
+INCLUDE "src/volumeTable.bas"
+INCLUDE "src/audioDeepPage.bas"
+INCLUDE "src/asmPlayerInit.bas"
 
 baseBank = BANK()
 GLOBAL baseBank
 
-INCLUDE "olitracker_2v/asmPlayCore.bas
-INCLUDE "olitracker_2v/playTicksAsm.bas"
+INCLUDE "src/asmPlayCore.bas
+INCLUDE "src/playTicksAsm.bas"
 
 
 CALL inizialize_dac

@@ -1,10 +1,6 @@
 ' @spec SPEC-080,SPEC-060
 ' @covers AC-080-01,AC-080-02,AC-060-02,AC-060-04
 ' @notes Indici speciali: 96=pause, 97=repeat ch1, 98=repeat ch2 (v0.1 inc=0; ASM gestisce 97/98 come "keep previous").
-' ### 97/98 (repeat) — nota importante
-- `note = 97` (repeat CH1) e `note = 98` (repeat CH2) sono trattati dal decoder ASM come sentinel: il core **non aggiorna** `INC1`/`INC2` e quindi mantiene l’incremento precedente del canale. [file:126]
-- In `incTable`, gli indici 97 e 98 sono definiti a 0 **solo come valore di fallback**, ma non vengono usati nel percorso “repeat” perché l’ASM branch-a prima del lookup. [file:126][file:125]
-
 
 DIM incTable AS WORD (99) FOR BANK READ
 GLOBAL incTable
