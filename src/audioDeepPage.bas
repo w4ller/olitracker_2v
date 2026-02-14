@@ -4,7 +4,7 @@
 
 
 ' 512 byte per trovare una pagina allineata
-DIM audioDP(512) AS BYTE
+DIM audioDP(512) AS BYTE FOR BANK READ
 GLOBAL audioDP
 
 DIM audioDPBase AS WORD
@@ -27,7 +27,7 @@ IF byteBasso <> 0 THEN
 ENDIF
 audioDPBase = audioDPPage * $100
 
-'PRINT "audioDPBase ";HEX$(audioDPBase)
+PRINT "audioDPBase ";HEX$(audioDPBase)
 
 
 

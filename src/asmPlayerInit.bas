@@ -27,9 +27,10 @@ INCTABP EQU 30
 INSTTABP EQU 32
 VOLTABP EQU 34
 
+   PSHS DP   
 
-    LDA  _audioDPPage
-    TFR  A,DP
+   LDA  _audioDPPage
+   TFR  A,DP
 
     ; init audio
     LDD  #$8000
@@ -49,11 +50,6 @@ VOLTABP EQU 34
     LDD  #_volumeTableAddr
     STD  <VOLTABP
 
-    ; songbase = addr + headerLen
-    LDD  _addr
-    ADDD _headerLen
-    STD  <SONGBASE
-
     ; trackpos = 0
     LDD  #$0000
     STD  <TRACKPOS
@@ -66,6 +62,8 @@ VOLTABP EQU 34
     ; samplesPerTick = index (già calcolato in BASIC)
     LDD  _index
     STD  <SPT
+
+    PULS DP 
 
 END ASM ON CPU6809
 END PROCEDURE

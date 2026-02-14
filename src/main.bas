@@ -61,7 +61,7 @@ INCLUDE "src/asmPlayerInit.bas"
 baseBank = BANK()
 GLOBAL baseBank
 
-INCLUDE "src/asmPlayCore.bas
+INCLUDE "src/asmPlayCore.bas"
 INCLUDE "src/playTicksAsm.bas"
 
 
