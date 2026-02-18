@@ -26,7 +26,6 @@ TMP1 EQU 36
     BRA  ch1_done_inc
 ch1_lookup_inc:
     ; D = note*2 (16-bit)
-    CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -39,7 +38,6 @@ ch1_skip_inc:
 
 ; ---------- CH1 inst -> INST1P ----------
     LDA  1,X
-    CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -50,7 +48,7 @@ ch1_skip_inc:
 
 ; ---------- CH1 vol -> VOL1P ----------
     LDA  2,X
-    CLRB
+    ;CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -69,7 +67,7 @@ ch1_skip_inc:
     STD  <INC2
     BRA  ch2_done_inc
 ch2_lookup_inc:
-    CLRB
+    ;CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -82,7 +80,7 @@ ch2_skip_inc:
 
 ; ---------- CH2 inst -> INST2P ----------
     LDA  6,X
-    CLRB
+    ;CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -93,7 +91,7 @@ ch2_skip_inc:
 
 ; ---------- CH2 vol -> VOL2P ----------
     LDA  7,X
-    CLRB
+    ;CLRB
     TFR  A,B
     CLRA
     LSLB

@@ -3,7 +3,7 @@
 ' @notes wavePosition = _addr + _headerLen + (_songSize * _channelLen * 2); instruments(n) = instRam + n*256 + 128.
 
 ' instruments memory space loaded in resident memory
-DIM instRam(512) AS BYTE FOR BANK READ
+DIM instRam(2048) AS BYTE FOR BANK READ
 GLOBAL instRam 
 
 DIM wavePosition 
@@ -31,4 +31,4 @@ FOR n = 0 TO inst-1
 
     instruments(n) = VARPTR(instRam) + (n * 256) + 128
 NEXT
-'PRINT "inst loaded in memory: ";HEX$(VARPTR(instRam))
+PRINT "inst loaded in memory: ";HEX$(VARPTR(instRam))
