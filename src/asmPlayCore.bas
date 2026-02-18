@@ -9,8 +9,7 @@ ON CPU6809 BEGIN ASM
     LDA _audioDPPage
     TFR A,DP
 
-; --- offsets (match asm_player_init) ---
-TMP1   EQU 43   ; byte temporaneo (zona SIGNW/DELTAW libera)
+
 
     LDX  #_rowBuf
 
@@ -155,73 +154,78 @@ tickidx_ok:
     ; ---- FX: solo tick 1..5 ----
     LDA  <TICKIDX
     BNE  fx_do
-    BRA  fx_done
+    JMP  fx_done        ; se tickidx=0, salta gli FX
 fx_do:
+    JSR  do_fx_sub      ; esegue gli FX (subroutine)
+    JMP  fx_done        ; torna al flusso principale
+; ------------------------------------------------------------------
+; Subroutine FX (separata per evitare errori di range)
+; ------------------------------------------------------------------
+do_fx_sub:
 
-; ===== CH1: portamento su INC1 (SL1 signed) =====
+; ===== CH1 (semplificato) =====
     LDA  <SL1
-    STA  <MAG1
-    BPL  ch1_mag_ok
-    NEGA
-    STA  <MAG1
-ch1_mag_ok:
-    ; delta = ((INC1 >> 4) * MAG1) >> 1   => ~ INC1 * MAG1 / 32
-    ; (taratura: per MAG1=1 è abbastanza udibile)
-    LDD  <INC1
-    LSRA
-    RORB
-    LSRA
-    RORB
-    LSRA
-    RORB
-    LSRA
-    RORB              ; D = INC1 >> 4
-    ; ora usa solo il byte basso di D (più grande del vecchio INC_hi)
-    TFR  B,A          ; A = low byte of (INC1>>4)
-    LDB  <MAG1
-    MUL               ; D = A * MAG1
-    LSRA
-    RORB              ; >>1
-    STD  <DELTAW
-
-
+    BEQ  ch1_end
+    BPL  ch1_up
+    ; slide down
     LDA  <SL1
-    BPL  ch1_add
-    LDD  <INC1
-    SUBD <DELTAW
-    STD  <INC1
-    BRA  ch1_done
-ch1_add:
-    LDD  <INC1
-    ADDD <DELTAW
-    STD  <INC1
-ch1_done:
-
-; ===== CH2: portamento su INC2 (SL2 signed) =====
-    LDA  <SL2
-    STA  <MAG2
-    BPL  ch2_mag_ok
     NEGA
-    STA  <MAG2
-ch2_mag_ok:
-    LDA  <INC2
-    LDB  <MAG2
-    MUL
-    LSRA
-    RORB
-    STD  <DELTAW
+    TFR  A,B
+    LDX  #_deltaPitchTable
+    LSLB
+    ABX
+    LDD  ,X
+    STD  <DELTA
+    LDD  <INC1
+    SUBD <DELTA
+    STD  <INC1
+    JMP  ch1_end
+ch1_up:
+    ; slide up
+    LDA  <SL1
+    TFR  A,B
+    LDX  #_deltaPitchTable
+    LSLB
+    ABX
+    LDD  ,X
+    STD  <DELTA
+    LDD  <INC1
+    ADDD <DELTA
+    STD  <INC1
+ch1_end:
 
+; ===== CH2 (semplificato) =====
     LDA  <SL2
-    BPL  ch2_add
+    BEQ  ch2_end
+    BPL  ch2_up
+    ; slide down
+    LDA  <SL2
+    NEGA
+    TFR  A,B
+    LDX  #_deltaPitchTable
+    LSLB
+    ABX
+    LDD  ,X
+    STD  <DELTA
     LDD  <INC2
-    SUBD <DELTAW
+    SUBD <DELTA
     STD  <INC2
-    BRA  ch2_done
-ch2_add:
+    JMP  ch2_end
+ch2_up:
+    ; slide up
+    LDA  <SL2
+    TFR  A,B
+    LDX  #_deltaPitchTable
+    LSLB
+    ABX
+    LDD  ,X
+    STD  <DELTA
     LDD  <INC2
-    ADDD <DELTAW
+    ADDD <DELTA
     STD  <INC2
-ch2_done:
+ch2_end:
+
+    RTS
 
 fx_done:
     LDY  <SPT

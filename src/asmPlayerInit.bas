@@ -36,11 +36,11 @@ FX2B    EQU 39   ; BYTE (rowBuf[9])
 SL1     EQU 40   ; BYTE signed: +xx (01), -xx (02), 0
 SL2     EQU 41   ; BYTE signed
 TICKIDX EQU 42   ; BYTE 0..5
-
-SIGNW   EQU 43   ; WORD temp (2 bytes) 43-44
-DELTAW  EQU 45   ; WORD temp (2 bytes) 45-46
-MAG1    EQU 47   ; BYTE temp (abs(sl1))
-MAG2    EQU 48   ; BYTE temp (abs(sl2))
+PACC1   EQU 43  ; WORD Q8.8 accumulator CH1
+PACC2   EQU 45   ; WORD Q8.8 accumulator CH2
+DELTA  EQU 47   ; word temporanea (2 byte)
+; --- offsets (match asm_player_init) ---
+TMP1   EQU 49   ; byte temporaneo (zona SIGNW/DELTAW libera)
 
    PSHS DP   
 
@@ -85,10 +85,8 @@ MAG2    EQU 48   ; BYTE temp (abs(sl2))
     CLR <SL2
     CLR <TICKIDX
     LDD #$0000
-    STD <SIGNW
-    STD <DELTAW
-    CLR <MAG1
-    CLR <MAG2
+    STD <PACC1
+    STD <PACC2
 
 
     PULS DP 
