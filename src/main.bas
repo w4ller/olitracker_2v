@@ -5,6 +5,11 @@
 DIM songSize AS WORD
 GLOBAL songSize
 
+' una riga = 10 byte (2 canali * 5)
+DIM rowBuf(10) AS BYTE FOR BANK READ
+GLOBAL rowBuf
+
+
 DIM headerLen
 GLOBAL headerLen
 headerLen = 5
@@ -20,7 +25,7 @@ PRINT "header: " ;HEX$(VARPTR(header))
 
 
 ' binary song banked
-binarySong := LOAD("assets/binarysong.bin") BANKED
+binarySong := LOAD("assets/c3.bin") BANKED
 addr = VARBANKPTR(binarySong)
 songBank = VARBANK(binarySong)
 GLOBAL addr

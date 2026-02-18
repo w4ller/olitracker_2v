@@ -9,9 +9,8 @@ ON CPU6809 BEGIN ASM
     LDA _audioDPPage
     TFR A,DP
 
-
-; --- offsets ---
-TMP1 EQU 36
+; --- offsets (match asm_player_init) ---
+TMP1   EQU 43   ; byte temporaneo (zona SIGNW/DELTAW libera)
 
     LDX  #_rowBuf
 
@@ -25,7 +24,6 @@ TMP1 EQU 36
     STD  <INC1
     BRA  ch1_done_inc
 ch1_lookup_inc:
-    ; D = note*2 (16-bit)
     TFR  A,B
     CLRA
     LSLB
@@ -48,7 +46,6 @@ ch1_skip_inc:
 
 ; ---------- CH1 vol -> VOL1P ----------
     LDA  2,X
-    ;CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -56,6 +53,24 @@ ch1_skip_inc:
     LDU  <VOLTABP
     LDD  D,U
     STD  <VOL1P
+
+; ---------- CH1 FX -> SL1 (signed) ----------
+    LDA  3,X          ; FX1A
+    CMPA #1
+    BEQ  fx1_up
+    CMPA #2
+    BEQ  fx1_down
+    CLR  <SL1
+    BRA  fx1_done
+fx1_up:
+    LDA  4,X          ; FX1B
+    STA  <SL1         ; positivo
+    BRA  fx1_done
+fx1_down:
+    LDA  4,X
+    NEGA
+    STA  <SL1         ; negativo
+fx1_done:
 
 ; ---------- CH2 note -> INC2 ----------
     LDA  5,X
@@ -67,7 +82,6 @@ ch1_skip_inc:
     STD  <INC2
     BRA  ch2_done_inc
 ch2_lookup_inc:
-    ;CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -80,7 +94,6 @@ ch2_skip_inc:
 
 ; ---------- CH2 inst -> INST2P ----------
     LDA  6,X
-    ;CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -91,7 +104,6 @@ ch2_skip_inc:
 
 ; ---------- CH2 vol -> VOL2P ----------
     LDA  7,X
-    ;CLRB
     TFR  A,B
     CLRA
     LSLB
@@ -100,20 +112,122 @@ ch2_skip_inc:
     LDD  D,U
     STD  <VOL2P
 
-; ---------- PLAY (tuo dac loop, DP version) ----------
+; ---------- CH2 FX -> SL2 (signed) ----------
+    LDA  8,X          ; FX2A
+    CMPA #1
+    BEQ  fx2_up
+    CMPA #2
+    BEQ  fx2_down
+    CLR  <SL2
+    BRA  fx2_done
+fx2_up:
+    LDA  9,X          ; FX2B
+    STA  <SL2
+    BRA  fx2_done
+fx2_down:
+    LDA  9,X
+    NEGA
+    STA  <SL2
+fx2_done:
+
+; ---------- PLAY (dac loop + FX tick 1..5) ----------
     LDA  #6
     STA  <TICKCNT
+    CLR  <TICKIDX          ; tick index 0..5
+
 tickLoop:
+    ; ---- tickidx update ----
+    INC  <TICKIDX
+    LDA  <TICKIDX
+    CMPA #6
+    BLO  tickidx_ok
+    CLR  <TICKIDX
+tickidx_ok:
+
+    ; ---- per-tick detune (DINC) ----
     LDD  <INC1
     ADDD <DINC1
     STD  <INC1
-
     LDD  <INC2
     ADDD <DINC2
     STD  <INC2
 
+    ; ---- FX: solo tick 1..5 ----
+    LDA  <TICKIDX
+    BNE  fx_do
+    BRA  fx_done
+fx_do:
+
+; ===== CH1: portamento su INC1 (SL1 signed) =====
+    LDA  <SL1
+    STA  <MAG1
+    BPL  ch1_mag_ok
+    NEGA
+    STA  <MAG1
+ch1_mag_ok:
+    ; delta = ((INC1 >> 4) * MAG1) >> 1   => ~ INC1 * MAG1 / 32
+    ; (taratura: per MAG1=1 è abbastanza udibile)
+    LDD  <INC1
+    LSRA
+    RORB
+    LSRA
+    RORB
+    LSRA
+    RORB
+    LSRA
+    RORB              ; D = INC1 >> 4
+    ; ora usa solo il byte basso di D (più grande del vecchio INC_hi)
+    TFR  B,A          ; A = low byte of (INC1>>4)
+    LDB  <MAG1
+    MUL               ; D = A * MAG1
+    LSRA
+    RORB              ; >>1
+    STD  <DELTAW
+
+
+    LDA  <SL1
+    BPL  ch1_add
+    LDD  <INC1
+    SUBD <DELTAW
+    STD  <INC1
+    BRA  ch1_done
+ch1_add:
+    LDD  <INC1
+    ADDD <DELTAW
+    STD  <INC1
+ch1_done:
+
+; ===== CH2: portamento su INC2 (SL2 signed) =====
+    LDA  <SL2
+    STA  <MAG2
+    BPL  ch2_mag_ok
+    NEGA
+    STA  <MAG2
+ch2_mag_ok:
+    LDA  <INC2
+    LDB  <MAG2
+    MUL
+    LSRA
+    RORB
+    STD  <DELTAW
+
+    LDA  <SL2
+    BPL  ch2_add
+    LDD  <INC2
+    SUBD <DELTAW
+    STD  <INC2
+    BRA  ch2_done
+ch2_add:
+    LDD  <INC2
+    ADDD <DELTAW
+    STD  <INC2
+ch2_done:
+
+fx_done:
     LDY  <SPT
-    BEQ  tickDone
+    BNE  spt_ok
+    JMP  tickDone        ; SPT = 0 → salta sampleLoop
+spt_ok:
 
 sampleLoop:
     LDD  <ACC1
@@ -140,17 +254,19 @@ sampleLoop:
 
 tickDone:
     DEC  <TICKCNT
-    BNE  tickLoop
+    BEQ  after_tick_loop
+    JMP  tickLoop        ; salto a 16 bit
+after_tick_loop:
 
-; ---------- advance trackPos (+=10, wrap) ----------
+; ---------- advance trackPos ----------
     LDD  <TRACKPOS
     ADDD #$000A
     CMPD <TRACKLINES
     BLS  storePos
     LDD  #$0000
 storePos:
-    STD  <TRACKPOS      ; salva in TRACKPOS (direct page)
-    STD  _trackPos      ; salva anche in _trackPos (indirizzamento esteso)
+    STD  <TRACKPOS
+    STD  _trackPos
     PULS DP
 END ASM ON CPU6809
 END PROCEDURE

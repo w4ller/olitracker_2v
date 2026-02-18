@@ -27,6 +27,21 @@ INCTABP EQU 30
 INSTTABP EQU 32
 VOLTABP EQU 34
 
+; --- NEW FX / slide state ---
+FX1A    EQU 36   ; BYTE (rowBuf[3])
+FX1B    EQU 37   ; BYTE (rowBuf[4])
+FX2A    EQU 38   ; BYTE (rowBuf[8])
+FX2B    EQU 39   ; BYTE (rowBuf[9])
+
+SL1     EQU 40   ; BYTE signed: +xx (01), -xx (02), 0
+SL2     EQU 41   ; BYTE signed
+TICKIDX EQU 42   ; BYTE 0..5
+
+SIGNW   EQU 43   ; WORD temp (2 bytes) 43-44
+DELTAW  EQU 45   ; WORD temp (2 bytes) 45-46
+MAG1    EQU 47   ; BYTE temp (abs(sl1))
+MAG2    EQU 48   ; BYTE temp (abs(sl2))
+
    PSHS DP   
 
    LDA  _audioDPPage
@@ -61,6 +76,20 @@ VOLTABP EQU 34
     ; samplesPerTick = index (già calcolato in BASIC)
     LDD  _index
     STD  <SPT
+
+    CLR <FX1A
+    CLR <FX1B
+    CLR <FX2A
+    CLR <FX2B
+    CLR <SL1
+    CLR <SL2
+    CLR <TICKIDX
+    LDD #$0000
+    STD <SIGNW
+    STD <DELTAW
+    CLR <MAG1
+    CLR <MAG2
+
 
     PULS DP 
 
