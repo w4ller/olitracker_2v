@@ -391,7 +391,12 @@ fx_done:
 spt_ok:
 
 
+; loop a 4 campioni + coda (gestisce SPT non multipli di 4)
 sampleLoop:
+    CMPY #4
+    BLO  sampleTail
+
+sample4:
     ; === CAMPIONE N ===
     LDD  <ACC1
     ADDD <INC1
@@ -472,9 +477,36 @@ sampleLoop:
     STA  $A7CD
 
 
-    ; decremento di 4
     LEAY -4,Y
-    LBNE  sampleLoop
+    CMPY #4
+    BHS  sample4
+
+sampleTail:
+    CMPY #0
+    BEQ  tickDone
+
+sample1:
+    ; === CAMPIONE (tail) ===
+    LDD  <ACC1
+    ADDD <INC1
+    STD  <ACC1
+    LDX  <INST1P
+    LDB  A,X
+    LDU  <VOL1P
+    LDA  B,U
+    STA  <TMP1
+    LDD  <ACC2
+    ADDD <INC2
+    STD  <ACC2
+    LDX  <INST2P
+    LDB  A,X
+    LDU  <VOL2P
+    LDA  B,U
+    ADDA <TMP1
+    STA  $A7CD
+
+    LEAY -1,Y
+    BNE  sample1
 
 
 tickDone:
