@@ -20,7 +20,7 @@ PRINT "header: " ;HEX$(VARPTR(header))
 
 
 ' binary song banked
-binarySong := LOAD("assets/binarysong.bin") BANKED
+binarySong := LOAD("assets/ritm1.bin") BANKED
 addr = VARBANKPTR(binarySong)
 songBank = VARBANK(binarySong)
 GLOBAL addr
@@ -58,6 +58,7 @@ INCLUDE "src/incrementTable.bas"
 INCLUDE "src/volumeTable.bas"
 INCLUDE "src/audioDeepPage.bas"
 INCLUDE "src/asmPlayerInit.bas"
+INCLUDE "src/pitchDeltaTable.bas"
 
 baseBank = BANK()
 GLOBAL baseBank
