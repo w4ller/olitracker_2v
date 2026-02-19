@@ -21,6 +21,7 @@ ON CPU6809 BEGIN ASM
     BNE  ch1_lookup_inc
     LDD  #$0000
     STD  <INC1
+    STD  <ACC1        ; reset ACC1 per pausa
     BRA  ch1_done_inc
 ch1_lookup_inc:
     TFR  A,B
@@ -30,6 +31,8 @@ ch1_lookup_inc:
     LDU  <INCTABP
     LDD  D,U
     STD  <INC1
+    LDD  #$0000
+    STD  <ACC1        ; reset ACC1 per nuova nota
 ch1_done_inc:
 ch1_skip_inc:
 
@@ -79,6 +82,7 @@ fx1_done:
     BNE  ch2_lookup_inc
     LDD  #$0000
     STD  <INC2
+    STD  <ACC2        ; reset ACC2 per pausa
     BRA  ch2_done_inc
 ch2_lookup_inc:
     TFR  A,B
@@ -88,9 +92,10 @@ ch2_lookup_inc:
     LDU  <INCTABP
     LDD  D,U
     STD  <INC2
+    LDD  #$0000
+    STD  <ACC2        ; reset ACC2 per nuova nota
 ch2_done_inc:
 ch2_skip_inc:
-
 ; ---------- CH2 inst -> INST2P ----------
     LDA  6,X
     TFR  A,B
@@ -234,6 +239,7 @@ fx_done:
 spt_ok:
 
 sampleLoop:
+    ; === CAMPIONE N ===
     LDD  <ACC1
     ADDD <INC1
     STD  <ACC1
@@ -242,7 +248,6 @@ sampleLoop:
     LDU  <VOL1P
     LDA  B,U
     STA  <TMP1
-
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
@@ -253,8 +258,66 @@ sampleLoop:
     ADDA <TMP1
     STA  $A7CD
 
-    LEAY -1,Y
-    BNE  sampleLoop
+    ; === CAMPIONE N+1 ===
+    LDD  <ACC1
+    ADDD <INC1
+    STD  <ACC1
+    LDX  <INST1P
+    LDB  A,X
+    LDU  <VOL1P
+    LDA  B,U
+    STA  <TMP1
+    LDD  <ACC2
+    ADDD <INC2
+    STD  <ACC2
+    LDX  <INST2P
+    LDB  A,X
+    LDU  <VOL2P
+    LDA  B,U
+    ADDA <TMP1
+    STA  $A7CD
+
+    ; === CAMPIONE N+2 ===
+    LDD  <ACC1
+    ADDD <INC1
+    STD  <ACC1
+    LDX  <INST1P
+    LDB  A,X
+    LDU  <VOL1P
+    LDA  B,U
+    STA  <TMP1
+    LDD  <ACC2
+    ADDD <INC2
+    STD  <ACC2
+    LDX  <INST2P
+    LDB  A,X
+    LDU  <VOL2P
+    LDA  B,U
+    ADDA <TMP1
+    STA  $A7CD
+
+    ; === CAMPIONE N+3 ===
+    LDD  <ACC1
+    ADDD <INC1
+    STD  <ACC1
+    LDX  <INST1P
+    LDB  A,X
+    LDU  <VOL1P
+    LDA  B,U
+    STA  <TMP1
+    LDD  <ACC2
+    ADDD <INC2
+    STD  <ACC2
+    LDX  <INST2P
+    LDB  A,X
+    LDU  <VOL2P
+    LDA  B,U
+    ADDA <TMP1
+    STA  $A7CD
+
+    ; decremento di 4
+    LEAY -4,Y
+    LBNE  sampleLoop
 
 tickDone:
     DEC  <TICKCNT
