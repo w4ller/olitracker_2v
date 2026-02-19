@@ -196,7 +196,7 @@ tickLoop:
     CMPA #6
     BLO  tickidx_ok
     CLR  <TICKIDX
- tickidx_ok:
+tickidx_ok:
 
 
     ; ---- per-tick detune (DINC) ----
