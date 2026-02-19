@@ -394,7 +394,7 @@ spt_ok:
 ; loop a 4 campioni + coda (gestisce SPT non multipli di 4)
 sampleLoop:
     CMPY #4
-    BLO  sampleTail
+    JMP  sampleTail
 
 sample4:
     ; === CAMPIONE N ===
@@ -412,10 +412,9 @@ sample4:
     LDX  <INST2P
     LDB  A,X
     LDU  <VOL2P
-    LDA  B,U
+    LDA  B,U    
     ADDA <TMP1
     STA  $A7CD
-
 
     ; === CAMPIONE N+1 ===
     LDD  <ACC1
@@ -479,7 +478,8 @@ sample4:
 
     LEAY -4,Y
     CMPY #4
-    BHS  sample4
+    BLO  sampleTail
+    JMP  sample4
 
 sampleTail:
     CMPY #0

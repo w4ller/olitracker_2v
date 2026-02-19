@@ -20,7 +20,7 @@ PRINT "header: " ;HEX$(VARPTR(header))
 
 
 ' binary song banked
-binarySong := LOAD("assets/ritm1.bin") BANKED
+binarySong := LOAD("assets/arpeggio.bin") BANKED
 addr = VARBANKPTR(binarySong)
 songBank = VARBANK(binarySong)
 GLOBAL addr
