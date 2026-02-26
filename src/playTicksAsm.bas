@@ -2,6 +2,37 @@
 ' @covers AC-030-01,AC-030-02
 ' @notes bpm = PEEK(VARPTR(header)+2); index = samplesPerTick; speed=6; sample_rate=11497 (v0.1).
 
+DIM songCopy AS BYTE (22) FOR BANK READ
+songCopy(0) = $B7
+songCopy(1) = $a7 
+songCopy(2) = $e5 
+songCopy(3) = $ce 
+songCopy(4) = $00 
+songCopy(5) = $0a 
+songCopy(6) = $a6 
+songCopy(7) = $80 
+songCopy(8) = $a7 
+songCopy(9) = $a0 
+
+
+songCopy(10) = $33 
+songCopy(11) = $5f 
+songCopy(12) = $11
+songCopy(13) = $83 
+
+songCopy(14) = $00 
+songCopy(15) = $00 
+songCopy(16) = $26 
+songCopy(17) = $f4 
+songCopy(18) = $f7 
+songCopy(19) = $a7 
+songCopy(20) = $e5
+songCopy(21) = $39 
+
+songCopyAddr = VARPTR(songCopy)
+GLOBAL songCopyAddr
+
+PRINT "song copy addr "; HEX$(songCopyAddr)
 
 
 DIM bpm AS WORD
@@ -68,11 +99,13 @@ samplesPerTick = samplesPerTickFromRow[samplesPerRow]
 index = samplesPerTick
 'PRINT index
 
+DIM defBank AS BYTE = 7
+GLOBAL defBank
+
 PROCEDURE play_loop
     CALL asm_player_init
     DO
-        'PRINT "aggiorno row";HEX$(VARPTR(rowBuf));" ";HEX$(trackBase);" ";songBank
-        BANK READ songBank FROM (trackBase + trackPos) TO VARPTR(rowBuf) SIZE 10
+        SYS songCopyAddr WITH REG(A)=songBank, REG(B)=defBank, REG(X)=(trackBase+trackPos), REG(Y)=VARPTR(rowBuf) ON CPU6809
         CALL asm_player_frame
     LOOP
 END PROCEDURE
