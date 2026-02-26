@@ -15,7 +15,7 @@ inst = PEEK(VARPTR(header)+4)
 ' copy instruments from banked binary song
 'SYS copyAddr WITH REG(A)=songBank, REG(B)=VARBANK(instRam), REG(X)=addr, REG(Y)=VARPTR(instRam), REG(U)=inst
 
-BANK READ songBank FROM wavePosition TO VARPTR(instRam) SIZE 512
+BANK READ songBank FROM wavePosition TO VARPTR(instRam) SIZE 2048
 
 DIM instruments AS ADDRESS(8)
 GLOBAL instruments

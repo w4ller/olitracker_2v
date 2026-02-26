@@ -2,6 +2,7 @@
 ' @covers AC-010-01,AC-010-02,AC-010-03
 ' @notes headerLen=5; rowBuf=10 bytes; song banked in binarySong (VARBANK/VARBANKPTR).
 
+
 DIM songSize AS WORD
 GLOBAL songSize
 
@@ -15,12 +16,12 @@ channelLen = 5
 
 DIM header(5) AS BYTE FOR BANK READ
 GLOBAL header
-PRINT "header: " ;HEX$(VARPTR(header))
+'PRINT "header: " ;HEX$(VARPTR(header))
 
 
 
 ' binary song banked
-binarySong := LOAD("assets/ritm1.bin") BANKED
+binarySong := LOAD("assets/c3.bin") BANKED
 addr = VARBANKPTR(binarySong)
 songBank = VARBANK(binarySong)
 GLOBAL addr
@@ -45,6 +46,7 @@ songSize = PEEKW(VARPTR(header))
 ' una riga = 10 byte (2 canali * 5)
 DIM rowBuf(10) AS BYTE FOR BANK READ
 GLOBAL rowBuf
+PRINT HEX$(VARPTR(rowBuf))
 
 ' base track nel file banked: addr + headerLen
 DIM trackBase AS WORD

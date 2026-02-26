@@ -42,6 +42,16 @@ DELTA  EQU 47   ; word temporanea (2 byte)
 ; --- offsets (match asm_player_init) ---
 TMP1   EQU 49   ; byte temporaneo (zona SIGNW/DELTAW libera)
 
+; --- ARPEGGIO 00XX (NEW) ---
+BASE1NOTE EQU 50   ; BYTE 0..95, 96=pause
+BASE2NOTE EQU 51   ; BYTE 0..95, 96=pause
+ARP1P     EQU 52   ; BYTE XX (0=off)
+ARP2P     EQU 53   ; BYTE XX (0=off)
+ARP1H     EQU 54   ; BYTE high nibble
+ARP1L     EQU 55   ; BYTE low nibble
+ARP2H     EQU 56   ; BYTE high nibble
+ARP2L     EQU 57   ; BYTE low nibble
+
    PSHS DP   
 
    LDA  _audioDPPage
@@ -88,6 +98,14 @@ TMP1   EQU 49   ; byte temporaneo (zona SIGNW/DELTAW libera)
     STD <PACC1
     STD <PACC2
 
+    CLR <BASE1NOTE
+    CLR <BASE2NOTE
+    CLR <ARP1P
+    CLR <ARP2P
+    CLR <ARP1H
+    CLR <ARP1L
+    CLR <ARP2H
+    CLR <ARP2L
 
     PULS DP 
 
