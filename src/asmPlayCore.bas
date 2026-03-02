@@ -404,17 +404,17 @@ sample4:
     LDX  <INST1P
     LDB  A,X
     LDU  <VOL1P
-    LDA  B,U
-    STA  <TMP1
+    LDB  B,U
+    STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDU  <VOL2P
-    LDA  B,U    
-    ADDA <TMP1
-    STA  $A7CD
+    LDB  B,U
+    ADDB <TMP1
+    STB  $A7CD
 
     ; === CAMPIONE N+1 ===
     LDD  <ACC1
@@ -423,17 +423,17 @@ sample4:
     LDX  <INST1P
     LDB  A,X
     LDU  <VOL1P
-    LDA  B,U
-    STA  <TMP1
+    LDB  B,U
+    STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDU  <VOL2P
-    LDA  B,U
-    ADDA <TMP1
-    STA  $A7CD
+    LDB  B,U
+    ADDB <TMP1
+    STB  $A7CD
 
 
     ; === CAMPIONE N+2 ===
@@ -443,17 +443,17 @@ sample4:
     LDX  <INST1P
     LDB  A,X
     LDU  <VOL1P
-    LDA  B,U
-    STA  <TMP1
+    LDB  B,U
+    STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDU  <VOL2P
-    LDA  B,U
-    ADDA <TMP1
-    STA  $A7CD
+    LDB  B,U
+    ADDB <TMP1
+    STB  $A7CD
 
 
     ; === CAMPIONE N+3 ===
@@ -463,17 +463,17 @@ sample4:
     LDX  <INST1P
     LDB  A,X
     LDU  <VOL1P
-    LDA  B,U
-    STA  <TMP1
+    LDB  B,U
+    STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDU  <VOL2P
-    LDA  B,U
-    ADDA <TMP1
-    STA  $A7CD
+    LDB  B,U
+    ADDB <TMP1
+    STB  $A7CD
 
 
     LEAY -4,Y
@@ -493,17 +493,17 @@ sample1:
     LDX  <INST1P
     LDB  A,X
     LDU  <VOL1P
-    LDA  B,U
-    STA  <TMP1
+    LDB  B,U
+    STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDU  <VOL2P
-    LDA  B,U
-    ADDA <TMP1
-    STA  $A7CD
+    LDB  B,U
+    ADDB <TMP1
+    STB  $A7CD
 
     LEAY -1,Y
     BNE  sample1
