@@ -3,7 +3,7 @@
 ' @notes wavePosition = _addr + _headerLen + (_songSize * _channelLen * 2); instruments(n) = instRam + n*256 + 128.
 
 ' instruments memory space loaded in resident memory
-DIM instRam(2048) AS BYTE FOR BANK READ
+DIM instRam(3315) AS BYTE FOR BANK READ
 GLOBAL instRam 
 
 DIM wavePosition 
@@ -15,19 +15,19 @@ inst = PEEK(VARPTR(header)+4)
 ' copy instruments from banked binary song
 'SYS copyAddr WITH REG(A)=songBank, REG(B)=VARBANK(instRam), REG(X)=addr, REG(Y)=VARPTR(instRam), REG(U)=inst
 
-BANK READ songBank FROM wavePosition TO VARPTR(instRam) SIZE 2048
+BANK READ songBank FROM wavePosition TO VARPTR(instRam) SIZE 3315
 
-DIM instruments AS ADDRESS(8)
+DIM instruments AS ADDRESS(16) FOR BANK READ
 GLOBAL instruments
 
 
 'PRINT "inst: ";HEX$(inst)
 FOR n = 0 TO inst-1
-    src = wavePosition + (n * 256)
+    'src = wavePosition + (n * 256)
     'PRINT HEX$(src)
-    dst = VARPTR(instRam) + (n * 256)
+    'dst = VARPTR(instRam) + (n * 256)
     'PRINT HEX$(dst)
-    BANK READ songBank FROM src TO dst SIZE 256
+    'BANK READ songBank FROM src TO dst SIZE 256
 
     instruments(n) = VARPTR(instRam) + (n * 256) + 128
 NEXT
