@@ -401,6 +401,7 @@ sample4:
     LDD  <ACC1
     ADDD <INC1
     STD  <ACC1
+    LDA  <ACC1
     LDX  <INST1P
     LDB  A,X
     LDX  <VOL1P
@@ -410,6 +411,7 @@ sample4:
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
+    LDA  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDX  <VOL2P
@@ -422,6 +424,7 @@ sample4:
     LDD  <ACC1
     ADDD <INC1
     STD  <ACC1
+    LDA  <ACC1
     LDX  <INST1P
     LDB  A,X
     LDX  <VOL1P
@@ -431,6 +434,7 @@ sample4:
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
+    LDA  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDX  <VOL2P
@@ -444,6 +448,7 @@ sample4:
     LDD  <ACC1
     ADDD <INC1
     STD  <ACC1
+    LDA  <ACC1
     LDX  <INST1P
     LDB  A,X
     LDX  <VOL1P
@@ -453,6 +458,7 @@ sample4:
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
+    LDA  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDX  <VOL2P
@@ -466,6 +472,7 @@ sample4:
     LDD  <ACC1
     ADDD <INC1
     STD  <ACC1
+    LDA  <ACC1
     LDX  <INST1P
     LDB  A,X
     LDX  <VOL1P
@@ -475,6 +482,7 @@ sample4:
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
+    LDA  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDX  <VOL2P
@@ -498,6 +506,7 @@ sample1:
     LDD  <ACC1
     ADDD <INC1
     STD  <ACC1
+    LDA  <ACC1
     LDX  <INST1P
     LDB  A,X
     LDX  <VOL1P
@@ -507,6 +516,7 @@ sample1:
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
+    LDA  <ACC2
     LDX  <INST2P
     LDB  A,X
     LDX  <VOL2P
