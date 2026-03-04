@@ -403,16 +403,18 @@ sample4:
     STD  <ACC1
     LDX  <INST1P
     LDB  A,X
-    LDU  <VOL1P
-    LDB  B,U
+    LDX  <VOL1P
+    ABX
+    LDB  ,X
     STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
-    LDU  <VOL2P
-    LDB  B,U
+    LDX  <VOL2P
+    ABX
+    LDB  ,X
     ADDB <TMP1
     STB  $A7CD
 
@@ -422,16 +424,18 @@ sample4:
     STD  <ACC1
     LDX  <INST1P
     LDB  A,X
-    LDU  <VOL1P
-    LDB  B,U
+    LDX  <VOL1P
+    ABX
+    LDB  ,X
     STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
-    LDU  <VOL2P
-    LDB  B,U
+    LDX  <VOL2P
+    ABX
+    LDB  ,X
     ADDB <TMP1
     STB  $A7CD
 
@@ -442,16 +446,18 @@ sample4:
     STD  <ACC1
     LDX  <INST1P
     LDB  A,X
-    LDU  <VOL1P
-    LDB  B,U
+    LDX  <VOL1P
+    ABX
+    LDB  ,X
     STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
-    LDU  <VOL2P
-    LDB  B,U
+    LDX  <VOL2P
+    ABX
+    LDB  ,X
     ADDB <TMP1
     STB  $A7CD
 
@@ -462,16 +468,18 @@ sample4:
     STD  <ACC1
     LDX  <INST1P
     LDB  A,X
-    LDU  <VOL1P
-    LDB  B,U
+    LDX  <VOL1P
+    ABX
+    LDB  ,X
     STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
-    LDU  <VOL2P
-    LDB  B,U
+    LDX  <VOL2P
+    ABX
+    LDB  ,X
     ADDB <TMP1
     STB  $A7CD
 
@@ -492,16 +500,18 @@ sample1:
     STD  <ACC1
     LDX  <INST1P
     LDB  A,X
-    LDU  <VOL1P
-    LDB  B,U
+    LDX  <VOL1P
+    ABX
+    LDB  ,X
     STB  <TMP1
     LDD  <ACC2
     ADDD <INC2
     STD  <ACC2
     LDX  <INST2P
     LDB  A,X
-    LDU  <VOL2P
-    LDB  B,U
+    LDX  <VOL2P
+    ABX
+    LDB  ,X
     ADDB <TMP1
     STB  $A7CD
 
