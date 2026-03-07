@@ -237,10 +237,10 @@ do_fx_sub:
 
 ; ===== CH1: ARPEGGIO 00XY =====
     LDA  <ARP1P
-    BEQ  ch1_slide
+    BEQ  ch1_no_arp       ; se ARP1P=0, salta arpeggio
     LDA  <BASE1NOTE
     CMPA #96
-    BHS  ch1_slide
+    BHS  ch1_no_arp       ; se pausa, salta arpeggio
 
     ; a = TICKIDX % 3 (qui TICKIDX è 1..5)
     LDA  <TICKIDX
@@ -278,14 +278,13 @@ arp1_idx_ok:
     LDU  <INCTABP
     LDD  D,U
     STD  <INC1
-    JMP  ch1_end
+ch1_no_arp:
 
 
-ch1_slide:
-; ===== CH1 SLIDE (come prima) =====
+; ===== CH1 SLIDE 01/02 =====
     LDA  <SL1
-    BEQ  ch1_end
-    BPL  ch1_up
+    BEQ  ch1_end          ; se SL1=0, slide disabilitato
+    BPL  ch1_slide_up
     ; slide down
     LDA  <SL1
     NEGA
@@ -298,8 +297,8 @@ ch1_slide:
     LDD  <INC1
     SUBD <DELTA
     STD  <INC1
-    JMP  ch1_end
-ch1_up:
+    BRA  ch1_end
+ch1_slide_up:
     ; slide up
     LDA  <SL1
     TFR  A,B
@@ -316,10 +315,10 @@ ch1_end:
 
 ; ===== CH2: ARPEGGIO 00XY =====
     LDA  <ARP2P
-    BEQ  ch2_slide
+    BEQ  ch2_no_arp       ; se ARP2P=0, salta arpeggio
     LDA  <BASE2NOTE
     CMPA #96
-    BHS  ch2_slide
+    BHS  ch2_no_arp       ; se pausa, salta arpeggio
 
     ; a = TICKIDX % 3 (qui TICKIDX è 1..5)
     LDA  <TICKIDX
@@ -357,14 +356,13 @@ arp2_idx_ok:
     LDU  <INCTABP
     LDD  D,U
     STD  <INC2
-    JMP  ch2_end
+ch2_no_arp:
 
 
-ch2_slide:
-; ===== CH2 SLIDE (come prima) =====
+; ===== CH2 SLIDE 01/02 =====
     LDA  <SL2
-    BEQ  ch2_end
-    BPL  ch2_up
+    BEQ  ch2_end          ; se SL2=0, slide disabilitato
+    BPL  ch2_slide_up
     ; slide down
     LDA  <SL2
     NEGA
@@ -377,8 +375,8 @@ ch2_slide:
     LDD  <INC2
     SUBD <DELTA
     STD  <INC2
-    JMP  ch2_end
-ch2_up:
+    BRA  ch2_end
+ch2_slide_up:
     ; slide up
     LDA  <SL2
     TFR  A,B
