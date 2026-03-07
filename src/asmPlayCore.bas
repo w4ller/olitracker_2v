@@ -74,8 +74,8 @@ ch1_skip_inc:
     BRA  fx1_done
 fx1_arp:
     LDA  4,X          ; FX1B (XX)
+    BEQ  fx1_arp_off  ; 0000: spegni arp
     STA  <ARP1P
-    CLR  <SL1
     TFR  A,B
     ANDB #$0F
     STB  <ARP1L
@@ -85,16 +85,22 @@ fx1_arp:
     LSRA
     STA  <ARP1H
     BRA  fx1_done
+fx1_arp_off:
+    CLR  <ARP1P       ; arpeggio off, slide resta com'è
+    BRA  fx1_done
 fx1_up:
     LDA  4,X          ; FX1B
+    BEQ  fx1_slide_off
     STA  <SL1         ; positivo
-    CLR  <ARP1P
     BRA  fx1_done
 fx1_down:
     LDA  4,X
+    BEQ  fx1_slide_off
     NEGA
     STA  <SL1         ; negativo
-    CLR  <ARP1P
+    BRA  fx1_done
+fx1_slide_off:
+    CLR  <SL1         ; pitch off, arp resta com'è
 fx1_done:
 
 
@@ -159,8 +165,8 @@ ch2_skip_inc:
     BRA  fx2_done
 fx2_arp:
     LDA  9,X          ; FX2B (XX)
+    BEQ  fx2_arp_off  ; 0000: spegni arp
     STA  <ARP2P
-    CLR  <SL2
     TFR  A,B
     ANDB #$0F
     STB  <ARP2L
@@ -170,16 +176,22 @@ fx2_arp:
     LSRA
     STA  <ARP2H
     BRA  fx2_done
+fx2_arp_off:
+    CLR  <ARP2P       ; arpeggio off, slide resta com'è
+    BRA  fx2_done
 fx2_up:
     LDA  9,X          ; FX2B
+    BEQ  fx2_slide_off
     STA  <SL2
-    CLR  <ARP2P
     BRA  fx2_done
 fx2_down:
     LDA  9,X
+    BEQ  fx2_slide_off
     NEGA
     STA  <SL2
-    CLR  <ARP2P
+    BRA  fx2_done
+fx2_slide_off:
+    CLR  <SL2         ; pitch off, arp resta com'è
 fx2_done:
 
 
