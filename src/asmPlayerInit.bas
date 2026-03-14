@@ -86,6 +86,15 @@ ARP2L     EQU 57   ; BYTE low nibble
     ; samplesPerTick = index (già calcolato in BASIC)
     LDD  _index
     STD  <SPT
+    
+    ; CH1 punta a instRam[0] - legge il VALORE di instRamPtr
+    LDD  _instRamPtr
+    STD  <INST1P
+
+    ; CH2 punta a instRam[256] - legge il VALORE e aggiunge 256
+    LDD  _instRamPtr
+    ADDD #256
+    STD  <INST2P
 
     CLR <FX1A
     CLR <FX1B

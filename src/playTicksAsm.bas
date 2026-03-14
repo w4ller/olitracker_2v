@@ -101,11 +101,21 @@ index = samplesPerTick
 
 DIM defBank AS BYTE = 7
 GLOBAL defBank
+addrBuffInst1  = VARPTR(rowBuf) + 1
+addrBuffInst2  = VARPTR(rowBuf) + 6
+
+        inst1 = rowBuf(1)
+        inst2 = rowBuf(6)
+        'PRINT "inst1 :";inst1
+        'PRINT HEX$(instruments(inst1))
+        BANK READ songBank FROM instruments(inst1)  TO VARPTR(instRam) SIZE 256
+        BANK READ songBank FROM instruments(inst2)  TO VARPTR(instRam) + 256 SIZE 256
 
 PROCEDURE play_loop
     CALL asm_player_init
     DO
         SYS songCopyAddr WITH REG(A)=songBank, REG(B)=defBank, REG(X)=(trackBase+trackPos), REG(Y)=VARPTR(rowBuf) ON CPU6809
+
         CALL asm_player_frame
     LOOP
 END PROCEDURE

@@ -40,16 +40,6 @@ ch1_done_inc:
 ch1_skip_inc:
 
 
-; ---------- CH1 inst -> INST1P ----------
-    LDA  1,X
-    TFR  A,B
-    CLRA
-    LSLB
-    ROLA
-    LDU  <INSTTABP
-    LDD  D,U
-    STD  <INST1P
-
 
 ; ---------- CH1 vol -> VOL1P ----------
     LDA  2,X
@@ -124,16 +114,6 @@ ch2_lookup_inc:
 ch2_done_inc:
 ch2_skip_inc:
 
-
-; ---------- CH2 inst -> INST2P ----------
-    LDA  6,X
-    TFR  A,B
-    CLRA
-    LSLB
-    ROLA
-    LDU  <INSTTABP
-    LDD  D,U
-    STD  <INST2P
 
 
 ; ---------- CH2 vol -> VOL2P ----------
@@ -394,8 +374,8 @@ spt_ok:
 ; loop a 4 campioni + coda (gestisce SPT non multipli di 4)
 sampleLoop:
     CMPY #4
-    LBCC  sampleTail     ; se Y < 4, vai alla coda
-    JMP  sample4        ; altrimenti unroll 4 campioni
+    LBLO  sampleTail     ; se Y < 4, vai alla coda ✅
+    JMP  sample4
 
 sample4:
     ; === CAMPIONE N ===

@@ -22,7 +22,7 @@ GLOBAL header
 
 
 ' binary song banked
-binarySong := LOAD("assets/80.2..bin") BANKED
+binarySong := LOAD("assets/C3.bin") BANKED
 addr = VARBANKPTR(binarySong)
 songBank = VARBANK(binarySong)
 GLOBAL addr
