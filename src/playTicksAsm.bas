@@ -36,7 +36,7 @@ PRINT "song copy addr "; HEX$(songCopyAddr)
 
 
 DIM bpm AS WORD
-bpm = PEEK(VARPTR(header) +2)
+bpm = PEEK(VARPTR(header) +2) + 8
 PRINT "BPM: ";HEX$(bpm * 2)
 DIM tFine AS WORD
 DIM octave AS WORD

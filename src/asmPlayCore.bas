@@ -394,7 +394,8 @@ spt_ok:
 ; loop a 4 campioni + coda (gestisce SPT non multipli di 4)
 sampleLoop:
     CMPY #4
-    JMP  sampleTail
+    LBCC  sampleTail     ; se Y < 4, vai alla coda
+    JMP  sample4        ; altrimenti unroll 4 campioni
 
 sample4:
     ; === CAMPIONE N ===
