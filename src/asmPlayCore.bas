@@ -374,7 +374,7 @@ spt_ok:
 ; loop a 4 campioni + coda (gestisce SPT non multipli di 4)
 sampleLoop:
     CMPY #4
-    LBLO  sampleTail     ; se Y < 4, vai alla coda ✅
+    LBCC  sampleTail     ; se Y < 4, vai alla coda ✅
     JMP  sample4
 
 sample4:

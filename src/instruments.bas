@@ -7,6 +7,10 @@ DIM instRam(512) AS BYTE FOR BANK READ
 GLOBAL instRam 
 PRINT "instRam: ";HEX$(VARPTR(instRam))
 
+FOR n = 0 TO 511
+    instRam(n) = 0
+NEXT
+
 DIM instRamPtr AS WORD
 GLOBAL instRamPtr
 instRamPtr = VARPTR(instRam)

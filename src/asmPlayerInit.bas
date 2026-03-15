@@ -89,11 +89,12 @@ ARP2L     EQU 57   ; BYTE low nibble
     
     ; CH1 punta a instRam[0] - legge il VALORE di instRamPtr
     LDD  _instRamPtr
+    ADDD #128
     STD  <INST1P
 
     ; CH2 punta a instRam[256] - legge il VALORE e aggiunge 256
     LDD  _instRamPtr
-    ADDD #256
+    ADDD #384
     STD  <INST2P
 
     CLR <FX1A
