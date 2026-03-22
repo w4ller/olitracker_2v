@@ -1,4 +1,4 @@
-' @spec SPEC-010,SPEC-030
+' @spec SPEC-010,SPEC-020,SPEC-030,SPEC-070
 ' @covers AC-030-01,AC-030-02
 ' @notes bpm = PEEK(VARPTR(header)+2); index = samplesPerTick; speed=6; sample_rate=11497 (v0.1).
 
