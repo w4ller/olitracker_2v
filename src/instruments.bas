@@ -7,9 +7,9 @@ DIM instRam(512) AS BYTE FOR BANK READ
 GLOBAL instRam 
 PRINT "instRam: ";HEX$(VARPTR(instRam))
 
-FOR n = 0 TO 511
-    instRam(n) = 0
-NEXT
+' FOR n = 0 TO 511
+'     instRam(n) = 0
+' NEXT
 
 DIM instRamPtr AS WORD
 GLOBAL instRamPtr
@@ -40,12 +40,6 @@ FOR n = 0 TO inst-1
     'BANK READ songBank FROM src TO dst SIZE 256
 
     instruments(n) = wavePosition + (n * 256)
-    PRINT HEX$(instruments(n))
+    'PRINT HEX$(instruments(n))
 NEXT
 PRINT "inst loaded in memory: ";HEX$(VARPTR(instRam))
-
-
-PRINT "wave: ";HEX$(wavePosition)
-PRINT "inst0: ";HEX$(instruments(0))  
-PRINT "inst1: ";HEX$(instruments(1))
-PRINT "diff: ";HEX$(instruments(1)-instruments(0))
